@@ -33,5 +33,16 @@ class BitReader(object):
 
 
 
+f = open("testing", "rb")
 
+count = 0
+while f.read(1):
+    count=count+1
+
+f.close()
+
+f = open("testing", "rb")
+
+first_object=BitReader(f)
+print(chr(first_object.readbits(8)))
 
