@@ -1,3 +1,7 @@
+from heapq import heapify
+from HuffmanEncoding.characterNode import characterNode
+
+#create a hashmap with characters as keys and frequencies as values
 def generateFrequencyTable(file_name):
 
     frequencyTable={}
@@ -15,6 +19,23 @@ def generateFrequencyTable(file_name):
     file.close()
 
     return frequencyTable
+
+
+#Add nodes to priority queue
+def createHeap(frequencyTable):
+    heap=[]
+    for character in frequencyTable:
+        node=characterNode(character,frequencyTable[character])
+        heap.append(node)
+    heapify(heap)
+
+    return heap
+
+
+def main():
+    frequencyTable=generateFrequencyTable("WarAndPeace.txt")
+    createHeap(frequencyTable)
+
 
 
 
