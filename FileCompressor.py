@@ -1,4 +1,4 @@
-from heapq import heapify
+from heapq import heapify,heappop
 from HuffmanEncoding.characterNode import characterNode
 
 #create a hashmap with characters as keys and frequencies as values
@@ -32,9 +32,22 @@ def createHeap(frequencyTable):
     return heap
 
 
+# Create Tree
+def createTree(heap):
+    while len(heap) > 1:
+        right_node = heappop(heap)
+        left_node = heappop(heap)
+        new_node = characterNode(character=None, frequency=right_node.frequency + left_node.frequency,
+                                 left_node=left_node, right_node=right_node)
+        heap.append(new_node)
+
+
 def main():
     frequencyTable=generateFrequencyTable("WarAndPeace.txt")
-    createHeap(frequencyTable)
+    heap=createHeap(frequencyTable)
+    createTree(heap)
+
+
 
 
 
