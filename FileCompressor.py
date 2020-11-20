@@ -1,6 +1,8 @@
 from heapq import heapify,heappop
 from HuffmanEncoding.characterNode import characterNode
 
+characterMap={}
+
 #create a hashmap with characters as keys and frequencies as values
 def generateFrequencyTable(file_name):
 
@@ -42,10 +44,26 @@ def createTree(heap):
         heap.append(new_node)
 
 
+#Traverses the tree and maps character to bit representation
+def retrieveCode(node):
+    retrieveCodeHelper(node,"")
+
+def retrieveCodeHelper(node,path):
+    if not node:
+        return
+    if not node.right and not node.left:
+        characterMap[node.character]=path
+        return
+
+    retrieveCodeHelper(node.right,path+"1")
+    retrieveCodeHelper(node.left,path+"0")
+
+
 def main():
     frequencyTable=generateFrequencyTable("WarAndPeace.txt")
     heap=createHeap(frequencyTable)
     createTree(heap)
+    retrieveCode(heap[0])
 
 
 
