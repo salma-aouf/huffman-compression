@@ -1,5 +1,7 @@
 from heapq import heapify,heappop
 from HuffmanEncoding.characterNode import characterNode
+from HuffmanEncoding.BitWriter import BitWriter
+
 
 characterMap={}
 
@@ -59,11 +61,31 @@ def retrieveCodeHelper(node,path):
     retrieveCodeHelper(node.left,path+"0")
 
 
+#Compression
+def compress(input_filename,output_filename):
+    input_file= open(input_filename, "r")
+    output_file = open(output_filename, "wb")
+    output_compressed = BitWriter(output_file)
+    char=input_file.read(1)
+    while char != "":
+        byte_code = characterMap[char]
+        output_compressed.writebits(int(byte_code),len(byte_code))
+        char=input_file.read(1)
+
+    output_compressed.flush()
+
+    output_file.close()
+
+
 def main():
     frequencyTable=generateFrequencyTable("WarAndPeace.txt")
     heap=createHeap(frequencyTable)
     createTree(heap)
     retrieveCode(heap[0])
+    compress("WarAndPeace.txt", "Compressed.txt")
+
+
+main()
 
 
 
